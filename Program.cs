@@ -17,8 +17,17 @@ namespace signalsample
             CreateWebHostBuilder(args).Build().Run();
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args)
+        {
+            var config = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                //.AddJsonFile("configs/hosting.json", optional: true)
+                //.AddJsonFile("configs/cors.json")
+                .AddCommandLine(args)
+                .Build();
+            return WebHost.CreateDefaultBuilder(args)
+                .UseStartup<Startup>()
+                .UseConfiguration(config);
+        }
     }
 }

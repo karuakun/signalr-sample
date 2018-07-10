@@ -1,23 +1,17 @@
 <h1>Echo Server</h1>
 <div>
-  <div>
-    <p>Room</p>
-    <input type="checkbox" [(ngModel)]="roomGlobal"/>Global
-    <input type="checkbox" [(ngModel)]="roomTech"/>Tech
-  </div>
-  
   <input type="text" [(ngModel)]="message"/>
   <button id="send" (click)="send()">Send</button>
 </div>
-<div class="chat-room">
-  <p class="chat-room-name">Generic</p>
-  <div class="chat-messages">
-    <p *ngFor="let m of roomGlobalMessages">{{m}}</p>
+<div class="hub">
+  <p class="hub-name">Global</p>
+  <div class="messages">
+    <p *ngFor="let m of globalMessages">{{m}}</p>
   </div>
 </div>
-<div class="chat-room">
-  <p class="chat-room-name">RoomA</p>
-  <div class="chat-messages">
-    <p *ngFor="let m of roomTechMessages">{{m}}</p>
+<div class="hub">
+  <p class="hub-name">Echo</p>
+  <div class="messages">
+    <p *ngFor="let m of echoMessages">{{m}}</p>
   </div>
 </div>

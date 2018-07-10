@@ -1,3 +1,6 @@
+using System.Reflection;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -5,7 +8,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using signalsample.Hubs.Echo;
+using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json.Serialization;
+using NJsonSchema;
+using NSwag.AspNetCore;
+using signalsample.Hubs;
 
 namespace signalsample
 {
@@ -23,7 +30,27 @@ namespace signalsample
         {
             services.AddSignalR();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddCors(o => o.AddPolicy("AllowSpaClient",
+                builder => builder
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .WithOrigins(
+                        "http://localhost:4200/signalsample",
+                        "http://localhost/signalsample"
+                    )
+                ));
+
+            services
+                .AddMvc(options =>
+                {
+
+                })
+                .AddJsonOptions(options =>
+                {
+                    // serialize option camelcase
+                    options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                })
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -49,10 +76,18 @@ namespace signalsample
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
+            app.UseCors("AllowSpaClient");
+
             app.UseSignalR(routes =>
             {
                 routes.MapHub<EchoHub>("/hubs/echo");
 
+            });
+
+            app.UseSwaggerUi(typeof(Startup).GetTypeInfo().Assembly, settings =>
+            {
+                settings.GeneratorSettings.DefaultPropertyNameHandling =
+                    PropertyNameHandling.CamelCase;
             });
 
             app.UseMvc(routes =>
