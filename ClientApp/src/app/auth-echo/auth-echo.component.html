@@ -1,0 +1,23 @@
+<p>
+  Auth Echo
+</p>
+<div>
+  <input type="text" [(ngModel)]="message" />
+  <button id="send" (click)="send()">Send</button>
+</div>
+<div class="hub">
+  <p class="hub-name">Global</p>
+  <div class="messages">
+    <p *ngFor="let m of globalMessages">{{m}}</p>
+  </div>
+</div>
+<div class="hub">
+  <p class="hub-name">Echo</p>
+  <div class="messages">
+    <p *ngFor="let m of echoMessages">{{m}}</p>
+  </div>
+</div>
+
+
+<p>HubError:{{statusMessage}}</p>
+<button (click)="showToken()">トークンを見る</button>

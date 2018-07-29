@@ -1,0 +1,15 @@
+.hub {
+  margin: 5px;
+}
+
+.hub-name {
+  font-size: 20px;
+}
+
+.messages {
+  margin-left: 20px;
+}
+
+  .messages p {
+    margin: 2px;
+  }

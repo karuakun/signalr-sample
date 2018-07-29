@@ -4,5 +4,16 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  auth: {
+    clientID: 'fRIG3ACIoxspTQAep6p608jrySuvUrXI',
+    domain: 'karuakun.auth0.com',
+    audience: 'http://localhost:50416/',
+    redirect: 'http://localhost:50416/callback',
+    scope: 'openid profile email'
+  },
+  signalR: {
+    echoHubUrl: 'http://localhost:50416/hubs/echo',
+    authHubUrl: 'http://localhost:50416/hubs/auth-echo'
+  }
 };

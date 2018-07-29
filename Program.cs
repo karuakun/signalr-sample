@@ -21,8 +21,7 @@ namespace signalsample
         {
             var config = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                //.AddJsonFile("configs/hosting.json", optional: true)
-                //.AddJsonFile("configs/cors.json")
+                .AddJsonFile("jwt.json", optional: true)
                 .AddCommandLine(args)
                 .Build();
             return WebHost.CreateDefaultBuilder(args)

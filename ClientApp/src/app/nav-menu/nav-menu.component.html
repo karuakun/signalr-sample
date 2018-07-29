@@ -17,9 +17,23 @@
                 <span class='glyphicon glyphicon-home'></span> Home
               </a>
             </li>
+            <li [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
+              <a [routerLink]='["/authecho"]' (click)='collapse()'>
+                <span class='glyphicon glyphicon-home'></span> authecho
+              </a>
+            </li>
 
-            </ul>
-
+            <li>
+              <a *ngIf="!authService.isLoggedIn" (click)="authService.login()">
+                <span class='glyphicon glyphicon-home'>Log In</span>
+              </a>
+            </li>
+            <li>
+              <a *ngIf="authService.isLoggedIn" (click)="authService.logout()">
+                <span class='glyphicon glyphicon-home'>Log Out</span>
+              </a>
+            </li>
+          </ul>
         </div>
     </div>
 </div>
