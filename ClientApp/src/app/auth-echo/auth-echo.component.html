@@ -18,6 +18,10 @@
   </div>
 </div>
 
+<div>
+  Users
+  <p *ngFor="let u of connectionUsers">{{u}}</p>
+</div>
 
 <p>HubError:{{statusMessage}}</p>
 <button (click)="showToken()">トークンを見る</button>

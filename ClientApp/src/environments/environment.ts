@@ -10,6 +10,7 @@ export const environment = {
     domain: 'karuakun.auth0.com',
     audience: 'http://localhost:50416/',
     redirect: 'http://localhost:50416/callback',
+    logoutRedirect:'http://localhost:50416',
     scope: 'openid profile email'
   },
   signalR: {

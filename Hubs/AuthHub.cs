@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
@@ -10,9 +11,23 @@ namespace signalsample.Hubs
     [Authorize(AuthenticationSchemes = "Bearer")]
     public class AuthHub:Hub
     {
+        private static Dictionary<string, SessionContext> CurrentContexts { get; set; } =
+            new Dictionary<string, SessionContext>();
+
         public override Task OnConnectedAsync()
         {
+            var session = GetSessionContext();
             Clients.All.SendAsync("Global", "connected", GetSessionContext());
+
+            lock (CurrentContexts)
+            {
+                if (!CurrentContexts.ContainsKey(session.ConnectionId))
+                {
+                    CurrentContexts.Add(session.ConnectionId, session);
+                    Clients.All.SendAsync("ConnectedUserChange", CurrentContexts.Select(c => c.Value).ToList());
+                }
+            }
+
             return base.OnConnectedAsync();
         }
 
@@ -30,7 +45,18 @@ namespace signalsample.Hubs
 
         public override Task OnDisconnectedAsync(System.Exception exception)
         {
-            Clients.All.SendAsync("Global", "disconnected", GetSessionContext());
+            var session = GetSessionContext();
+            Clients.All.SendAsync("Global", "disconnected", session);
+
+            lock (CurrentContexts)
+            {
+                if (CurrentContexts.ContainsKey(session.ConnectionId))
+                {
+                    CurrentContexts.Remove(session.ConnectionId);
+                    Clients.All.SendAsync("ConnectedUserChange", CurrentContexts.Select(c => c.Value).ToList());
+                }
+            }
+
             return base.OnDisconnectedAsync(exception);
         }
         

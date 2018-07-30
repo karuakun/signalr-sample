@@ -4,6 +4,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using MessagePack;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -34,7 +35,8 @@ namespace signalsample
         public void ConfigureServices(IServiceCollection services)
         {
             // SignalR
-            services.AddSignalR();
+            services.AddSignalR()
+                .AddMessagePackProtocol();
 
             // CORS
             services.AddCors(o => o.AddPolicy("AllowSpaClient",
