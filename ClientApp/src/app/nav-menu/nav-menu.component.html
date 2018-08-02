@@ -22,6 +22,11 @@
                 <span class='glyphicon glyphicon-home'></span> authecho
               </a>
             </li>
+            <li [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
+              <a [routerLink]='["/process"]' (click)='collapse()'>
+                <span class='glyphicon'></span> process
+              </a>
+            </li>
 
             <li>
               <a *ngIf="!authService.isLoggedIn" (click)="authService.login()">

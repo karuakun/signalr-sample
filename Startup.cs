@@ -36,7 +36,8 @@ namespace signalsample
         {
             // SignalR
             services.AddSignalR()
-                .AddMessagePackProtocol();
+                .AddMessagePackProtocol()
+                ;
 
             // CORS
             services.AddCors(o => o.AddPolicy("AllowSpaClient",
@@ -142,7 +143,7 @@ namespace signalsample
             {
                 routes.MapHub<EchoHub>("/hubs/echo");
                 routes.MapHub<AuthHub>("/hubs/auth-echo");
-
+                routes.MapHub<ProcessHub>("/hubs/process");
             });
 
             // CORS

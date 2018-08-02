@@ -1,0 +1,8 @@
+<p>process works!</p>
+
+<button (click)="usage()">確認</button>
+<div>
+  <p>Processes</p>
+  {{processes.length}}
+  <p *ngFor="let p of processes">{{p}}</p>
+</div>

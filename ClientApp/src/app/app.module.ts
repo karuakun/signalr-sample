@@ -11,6 +11,7 @@ import { HomeComponent } from './home/home.component';
 import { AuthService } from './auth/auth.service'
 import { CallbackComponent } from './callback.component';
 import { AuthEchoComponent } from './auth-echo/auth-echo.component';
+import { ProcessComponent } from './process/process.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { AuthEchoComponent } from './auth-echo/auth-echo.component';
     HomeComponent,
     CallbackComponent,
     AuthEchoComponent,
+    ProcessComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -28,7 +30,8 @@ import { AuthEchoComponent } from './auth-echo/auth-echo.component';
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'home', component: HomeComponent },
       { path: 'authecho', component: AuthEchoComponent},
-      { path: 'callback', component: CallbackComponent},
+      { path: 'callback', component: CallbackComponent },
+      { path: 'process', component: ProcessComponent }
     ])
   ],
   providers: [AuthService],
