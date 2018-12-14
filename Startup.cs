@@ -15,6 +15,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Primitives;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using NJsonSchema;
 using NSwag.AspNetCore;
@@ -54,6 +55,11 @@ namespace signalsample
             var secion = Configuration.GetSection(JwtConfig.ConfigName);
             services.Configure<JwtConfig>(secion);
             var jwtConfig = secion.Get<JwtConfig>();
+            if (jwtConfig == null)
+            {
+                throw new InvalidOperationException("jwt settings is not completed.");
+            }
+
 
             // 認証、認可
             services.AddAuthentication(options =>
@@ -104,6 +110,16 @@ namespace signalsample
                 };
             });
 
+            services.AddSwaggerDocument(d =>
+            {
+                d.SerializerSettings = new JsonSerializerSettings
+                {
+                    ContractResolver = new CamelCasePropertyNamesContractResolver()
+                };
+                d.DocumentName = "v1";
+                d.ApiGroupNames = new[] {"1"};
+            });
+
             services
                 .AddMvc(options =>
                 {
@@ -112,7 +128,7 @@ namespace signalsample
                 {
                     options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                 })
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -150,11 +166,13 @@ namespace signalsample
             app.UseCors("AllowSpaClient");
 
             // Swagger
-            app.UseSwaggerUi(typeof(Startup).GetTypeInfo().Assembly, settings =>
-            {
-                settings.GeneratorSettings.DefaultPropertyNameHandling =
-                    PropertyNameHandling.CamelCase;
-            });
+            app.UseSwagger();
+            app.UseSwaggerUi3();
+            //app.UseSwaggerUi3(typeof(Startup).GetTypeInfo().Assembly, settings =>
+            //{
+            //    settings.GeneratorSettings.DefaultPropertyNameHandling =
+            //        PropertyNameHandling.CamelCase;
+            //});
 
             // 認証
             app.UseAuthentication();

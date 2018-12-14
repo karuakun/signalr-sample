@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from "../auth/auth.service"
 import { HubConnection, HubConnectionBuilder } from "@aspnet/signalr";
 import { environment } from './../../environments/environment';
-import { MessagePackHubProtocol } from "@aspnet/signalr-protocol-msgpack"
+//import { MessagePackHubProtocol } from "@aspnet/signalr-protocol-msgpack"
 
 @Component({
   selector: 'app-auth-echo',
@@ -34,7 +34,7 @@ export class AuthEchoComponent implements OnInit {
     const idToken = this.authService.idToken;
     console.info(this.authService.accessToken);
     this.hubConnection = builder
-      .withHubProtocol(new MessagePackHubProtocol())
+//      .withHubProtocol(new MessagePackHubProtocol())
       .withUrl(`${environment.signalR.authHubUrl}?idToken=${idToken}`)
       .build();
 

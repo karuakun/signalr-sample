@@ -1,11 +1,8 @@
 ﻿using Microsoft.AspNetCore.SignalR;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Channels;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity.UI.Pages.Internal.Account;
 
 namespace signalsample.Hubs
 {
